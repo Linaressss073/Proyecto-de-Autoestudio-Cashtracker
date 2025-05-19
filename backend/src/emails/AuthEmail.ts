@@ -14,4 +14,12 @@ export class AuthEmail {
 
     await sendTestEmail(email, subject, text);
   }
+
+  static async sendPasswordResetToken({ name, email, token }: ConfirmationEmailData) {
+    const subject = 'Reestable tu cuenta en Cashtracker';
+    const text = `Hola ${name},\n\nHas solicitida reestablecer
+    tu cuenta , lo puedes hacer con este token: ${token}\n.`;
+
+    await sendTestEmail(email, subject, text);
+  }
 }
