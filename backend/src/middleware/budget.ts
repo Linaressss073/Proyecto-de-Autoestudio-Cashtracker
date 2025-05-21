@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { param, body, validationResult } from "express-validator";
 import Budget from "../models/Budget";
+import { error } from "console";
 
 declare global {
   namespace Express {
@@ -75,4 +76,11 @@ export const validateBudgetInput = async (
 
   next();
 
+}
+
+export function hasAccess(req: Request , res: Response , next: NextFunction){
+  if (req.budget.userId !== req.user.id) {
+    return res.status(401).json({error: "Accion no valida"})
+  }
+  next()
 }

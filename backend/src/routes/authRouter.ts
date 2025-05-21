@@ -41,7 +41,6 @@ router.post('/login',
     AuthController.login
 )
 
-
 router.post('/forgot-password',
     body('email')
         .isEmail().withMessage('Email no valido'),
@@ -82,6 +81,14 @@ router.post('/update-password',
         .isLength({ min: 8 }).withMessage('El password nuevo es muy corto , minimo 8 caracteres'),
     handleInputErrors,
     AuthController.updateCurrentUserPassword
+)
+
+router.post('/check-password',
+    authenticate,
+    body('password')
+        .notEmpty().withMessage('El password actual no puede ir vacio'),
+    handleInputErrors,
+    AuthController.checkPassword
 )
 
 

@@ -1,25 +1,27 @@
 import { Router } from 'express'
-import { body, param } from 'express-validator';
 
 //Handlers
 import { BudgetController } from '../controllers/BudgetController';
 import { ExpensesController } from '../controllers/ExpenseController';
 
 import { handleInputErrors } from '../middleware/validation';
-import { validateBudgetExist, validateBudgetId, validateBudgetInput } from '../middleware/budget';
+import { hasAccess, validateBudgetExist, validateBudgetId, validateBudgetInput } from '../middleware/budget';
 import { validateExpenseId, validateExpenseInput } from '../middleware/expense';
+import { authenticate } from '../middleware/auth';
 
 const router = Router()
 
+router.use(authenticate)
+
 router.param('budgetId', validateBudgetId)
 router.param('budgetId', validateBudgetExist)
+router.param('budgetId',hasAccess)
 
 router.param('expenseId', validateExpenseId)
 router.param('expenseId', validateBudgetExist)
 
 
-router.get('/',
-    BudgetController.getAll)
+router.get('/', BudgetController.getAll)
 
 router.post('/',
     validateBudgetInput,
@@ -45,8 +47,6 @@ router.delete('/:budgetId',
 )
 
 /** Routes for expenses */
-
-
 router.post('/:budgetId/expenses',
     validateExpenseInput,
     handleInputErrors,
