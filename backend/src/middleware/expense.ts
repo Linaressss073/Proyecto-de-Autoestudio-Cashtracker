@@ -58,14 +58,14 @@ export const validateExpenseExists = async (
 
       if (!expense) {
         const error = new Error('Gasto no encontrado')
-        res.status(404).json({ error: error.message })
+        return res.status(404).json({ error: error.message })
       }
 
       req.expense = expense
 
       next()
     } catch (error) {
-      res.status(500).json({ message: "Hubo un error" })
+      return res.status(500).json({ message: "Hubo un error" })
     }
 
 

@@ -27,8 +27,7 @@ export const validateBudgetId = async (
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-    return;
+    return res.status(400).json({ errors: errors.array() });
   }
   next();
 
@@ -46,7 +45,7 @@ export const validateBudgetExist = async (
 
     if (!budget) {
       const error = new Error('Presupuesto no encontrado')
-      res.status(404).json({ error: error.message })
+      return res.status(404).json({ error: error.message })
     }
 
     req.budget = budget
